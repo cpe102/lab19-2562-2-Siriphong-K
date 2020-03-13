@@ -62,15 +62,54 @@ void Unit::showStatus(){
 void Unit::newTurn(){
 	guard_on = false;
 }
-
 //Write Function Member attack(), beAttacked(), heal(), guard() and isDead() here
-//
-//
-//
-//
-//
-//
-
+int Unit::attack(Unit &a){
+	int AAA;
+	AAA=atk-a.def;
+	a.beAttacked(AAA);
+	if(a.guard_on==true){
+		return AAA/3;
+	}else{
+		return AAA;
+	}
+}
+int Unit::beAttacked(int Atk){
+	int AA=Atk;
+	int A1=0;
+	if(guard_on==true){
+		A1=Atk/3;
+		hp-=A1;
+		return A1;
+	}else{
+		hp-=AA;
+		return AA;
+	}
+}
+int Unit::heal(){
+	int Heal=0;	
+	if(hp<hpmax){
+		Heal=(10+(rand()%21));
+		if(hp+Heal<=hpmax){
+		hp+=Heal;			
+		}else{
+			Heal=hpmax-hp;
+			hp=hpmax;
+		}
+	}else{
+		hp+=0;
+	}
+	return Heal;
+}
+void Unit::guard(){
+	guard_on=true;
+}
+bool Unit::isDead(){
+	if(hp<=0){
+		return true;
+	}else{
+		return false;
+	}
+}
 void drawScene(char p_action,int p,char m_action,int m){
 	cout << "                                                       \n";
 	if(p_action == 'A'){
@@ -106,8 +145,6 @@ void drawScene(char p_action,int p,char m_action,int m){
 	cout << "                  *   *                                \n";
 	cout << "                                                       \n";
 };
-
-
 void playerWin(){	
 	cout << "*******************************************************\n";
 	for(int i = 0; i < 3; i++) cout << "*                                                     *\n";
@@ -115,8 +152,6 @@ void playerWin(){
 	for(int i = 0; i < 3; i++) cout << "*                                                     *\n";
 	cout << "*******************************************************\n";
 };
-
-
 void playerLose(){
 	cout << "*******************************************************\n";
 	cout << "*                                                     *\n";
